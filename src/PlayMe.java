@@ -56,6 +56,7 @@ public class PlayMe extends JComponent implements KeyListener {
     ////////////////////////////////////////////////////////////////////////////
 
 //IMAGES AND ANIMATIONS
+    BufferedImage startScreen = ImageHelper.loadImage("startscreen.png");
     BufferedImage ShrtPlatForm = ImageHelper.loadImage("SmallPlatForm.png");
     BufferedImage LngPlatForm = ImageHelper.loadImage("LongPlatForm.png");
     BufferedImage lava = ImageHelper.loadImage("lava.png");
@@ -129,12 +130,13 @@ public class PlayMe extends JComponent implements KeyListener {
         ////////////////////////////////////////////////////////////////////////////
         // always clear the screen first!
         g.setFont(scoreFont);
-        //g.clearRect(0, 0, WIDTH, HEIGHT);
+        g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
-        if (level == 0) //TITLE SCREEN
+        if (level == 0) //start screen
         {
-            g.drawImage(playerOrig, 400 - player.width, 450, this);
+            g.drawImage(startScreen, 0, 0, this);
+            //g.drawImage(playerOrig, 320, 350, this);
         }
         ////////////////////////////////////////////////////////////////////////////
         if (level == 1) //MAIN GAME
@@ -216,7 +218,7 @@ public class PlayMe extends JComponent implements KeyListener {
         );
         smallGen.setInitialDelay(4800);
 
-        Timer mediumGen = new Timer(3000,
+        Timer mediumGen = new Timer(2950,
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
