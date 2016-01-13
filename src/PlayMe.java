@@ -34,7 +34,7 @@ import sun.audio.ContinuousAudioDataStream;
  * @author strua0325
  */
 // make sure you rename this class if you are doing a copy/paste
-public class Game extends JComponent implements KeyListener {
+public class PlayMe extends JComponent implements KeyListener {
 
     // Height and Width of our game
     static final int WIDTH = 800;
@@ -492,7 +492,7 @@ public class Game extends JComponent implements KeyListener {
         JFrame frame = new JFrame("My Game");
 
         // creates an instance of my game
-        Game game = new Game();
+        PlayMe game = new PlayMe();
         // sets the size of my game
         game.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         // adds the game to the window
