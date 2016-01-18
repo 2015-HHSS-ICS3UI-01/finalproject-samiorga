@@ -31,7 +31,7 @@ import javax.swing.Timer;
 
 /**
  *
- * @author strua0325
+ * @author iorgs3184
  */
 // make sure you rename this class if you are doing a copy/paste
 public class PlayMe extends JComponent implements KeyListener {
@@ -39,53 +39,55 @@ public class PlayMe extends JComponent implements KeyListener {
     // Height and Width of our game
     static final int WIDTH = 800;
     static final int HEIGHT = 600;
-    
+
     // sets the framerate and delay for our game
     // you just need to select an approproate framerate
     long desiredFPS = 60;
     long desiredTime = (1000) / desiredFPS;
-    
+
     //playing sound during game
     Sound mainTheme = new Sound("MarioLand.wav");
     Sound gameOverTheme = new Sound("GameOver.wav");
-    
+
     //new array for platforms and lava
     ArrayList<Rectangle> smallPlat = new ArrayList();
     ArrayList<Rectangle> mediumPlat = new ArrayList();
     ArrayList<Rectangle> longPlat = new ArrayList();
     ArrayList<Rectangle> lavas = new ArrayList();
-    
+    ArrayList<Rectangle> enemys = new ArrayList();
+
     //images for backgrounds, character, platforms, lava, start and game over screen
     BufferedImage startScreen = ImageHelper.loadImage("startscreen.png");
     BufferedImage ShrtPlatForm = ImageHelper.loadImage("SmallPlatForm.png");
     BufferedImage LngPlatForm = ImageHelper.loadImage("LongPlatForm.png");
     BufferedImage lava = ImageHelper.loadImage("lava.png");
+    BufferedImage enemy = ImageHelper.loadImage("ENEMY.png");
     //BufferedImage score = ImageHelper.loadImage("score.png");
     BufferedImage cave = ImageHelper.loadImage("cave.png");
     BufferedImage playerOrig = ImageHelper.loadImage("player.orig.png");
     BufferedImage gameOverScreen = ImageHelper.loadImage("gameoverScreen.png");
-    
+
     //animations
     Animation runLeft;
     Animation idle;
-    
+
     //VARIABLES FOR GAMEPLAY
     //player score
     Font scoreFont = new Font("Arial", Font.BOLD, 40);
     Font scoreDisplay = new Font("Arial", Font.ITALIC, 72);
     int scoreCount = 0;
-    
+
     //level for different screens
     int level = 0;
-    
+
     //player controls
     boolean jump = false;
     boolean jumping = false;
-    
+
     //player gravity and jump value
     int gravity = 2;
     int playerJump = -30;
-    
+
     //player camera
     int playerCam = 0;
 
@@ -108,6 +110,9 @@ public class PlayMe extends JComponent implements KeyListener {
     }
     //player variable
     int dy = 0;
+    int randomHL = 0;
+    Random random = new Random();
+    int randomNumber = (int) (Math.random() * 150) + 1;
     
     //player dimentions
     Rectangle player = new Rectangle(60, 490, 48, 110);
@@ -158,6 +163,11 @@ public class PlayMe extends JComponent implements KeyListener {
                         lavas.get(i).width, lavas.get(i).height, null);
             }
 
+            for (int i = 0; i < enemys.size(); i++) {
+                g.drawImage(enemy, enemys.get(i).x - playerCam, enemys.get(i).y,
+                        enemys.get(i).width, enemys.get(i).height, null);
+            }
+
             //player        
             g.drawImage(playerOrig, player.x - playerCam, player.y, null);
 
@@ -201,12 +211,12 @@ public class PlayMe extends JComponent implements KeyListener {
         Timer smallGen = new Timer(9000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                smallPlat.add(new Rectangle(player.x + 500, 125, 116, 50));
+                smallPlat.add(new Rectangle(player.x + 700, 125, 116, 50));
             }
         });
         //set first delay
         smallGen.setInitialDelay(4700);
-        
+
         //medium platfom generating time
         Timer mediumGen = new Timer(5950, new ActionListener() {
             @Override
@@ -216,7 +226,7 @@ public class PlayMe extends JComponent implements KeyListener {
         });
         //set first delay
         mediumGen.setInitialDelay(3950);
-        
+
         //long platfom generating time
         Timer longGen = new Timer(3000, new ActionListener() {
             @Override
@@ -228,7 +238,7 @@ public class PlayMe extends JComponent implements KeyListener {
         longGen.setInitialDelay(3000);
 
         //lava generating time
-        Timer lavaGen = new Timer(1000, new ActionListener() {
+        Timer lavaGen = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 lavas.add(new Rectangle(player.x + 900, 550, 114, 50));
@@ -236,6 +246,18 @@ public class PlayMe extends JComponent implements KeyListener {
         });
         //set first delay
         lavaGen.setInitialDelay(2000);
+
+        Timer enemyGen = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int High = 250;
+                int Low = randomNumber;
+                randomHL = random.nextInt((High - Low) + Low);
+                enemys.add(new Rectangle(player.x + 900, randomHL, 48, 16));
+                enemys.add(new Rectangle(player.x + 900, 500, 48, 16));
+            }
+        });
+        enemyGen.setInitialDelay(3000);
 
         //player score
         Timer scoreIncrease = new Timer(1000, new ActionListener() {
@@ -246,10 +268,10 @@ public class PlayMe extends JComponent implements KeyListener {
         });
         //set first delay
         scoreIncrease.setInitialDelay(0000);
-        
+
         //main theme plays the whole time
         mainTheme.setLoop(true);
-        
+
         while (!done) {
             // determines when we started so we can keep a framerate
             startTime = System.currentTimeMillis();
@@ -257,18 +279,16 @@ public class PlayMe extends JComponent implements KeyListener {
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
             //title
-            /*if (level == 0) //TITLE SCREEN LOGIC
-            {
+            if (level == 0) {
                 idle.play(); //title screen idle animation
                 //do not play game over at start of game
-                
+
                 if (gameOverTheme.isPlaying()) {
                     gameOverTheme.stop();
                 }
-            }*/         
+            }
             //main game is playing
-            if (level == 1)
-            {
+            if (level == 1) {
 
                 //play music
                 if (!mainTheme.isPlaying()) {
@@ -295,6 +315,9 @@ public class PlayMe extends JComponent implements KeyListener {
                     lavaGen.start();
                 }
 
+                if (!enemyGen.isRunning()) {
+                    enemyGen.start();
+                }
                 //start score
                 if (!scoreIncrease.isRunning()) {
                     scoreIncrease.start();
@@ -328,7 +351,7 @@ public class PlayMe extends JComponent implements KeyListener {
                 //collision with lava
                 for (int i = 0; i < lavas.size(); i++) {
                     Rectangle collision = player.intersection(lavas.get(i));
-                    
+
                     if (player.intersects(lavas.get(i))) {
                         if (collision.width < collision.height) {
                             if (player.x < lavas.get(i).x) {
@@ -342,6 +365,24 @@ public class PlayMe extends JComponent implements KeyListener {
                         }
                     }
                 }
+                //collision with enemy lava ball
+                for (int i = 0; i < enemys.size(); i++) {
+                    Rectangle collision = player.intersection(enemys.get(i));
+
+                    if (player.intersects(enemys.get(i))) {
+                        if (collision.width < collision.height) {
+                            if (player.x < enemys.get(i).x) {
+                                level = 2;
+                            }
+                            if (player.y < enemys.get(i).y) {
+                                level = 2;
+                            } else {
+                                player.y = player.y + collision.height;
+                            }
+                        }
+                    }
+                }
+                
                 //collision with first long platform
                 for (int i = 0; i < longPlat.size(); i++) {
                     if (player.intersects(longPlat.get(i))) {
@@ -369,7 +410,7 @@ public class PlayMe extends JComponent implements KeyListener {
                 for (int i = 0; i < mediumPlat.size(); i++) {
                     if (player.intersects(mediumPlat.get(i))) {
                         Rectangle collision = player.intersection(mediumPlat.get(i));
-                        
+
                         if (collision.width < collision.height) {
                             if (player.x < mediumPlat.get(i).x) {
                                 player.x = player.x - collision.width;
@@ -393,7 +434,7 @@ public class PlayMe extends JComponent implements KeyListener {
                 for (int i = 0; i < smallPlat.size(); i++) {
                     if (player.intersects(smallPlat.get(i))) {
                         Rectangle collision = player.intersection(smallPlat.get(i));
-                        
+
                         if (collision.width < collision.height) {
                             if (player.x < smallPlat.get(i).x) {
                                 player.x = player.x - collision.width;
@@ -444,9 +485,11 @@ public class PlayMe extends JComponent implements KeyListener {
                     mediumGen.stop();
                     longGen.stop();
                     lavaGen.stop();
+                    enemyGen.stop();
 
                     //cleare collision arrays
                     lavas.clear();
+                    enemys.clear();
                     smallPlat.clear();
                     mediumPlat.clear();
                     longPlat.clear();
