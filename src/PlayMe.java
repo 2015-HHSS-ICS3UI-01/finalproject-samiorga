@@ -24,10 +24,10 @@ import javax.sound.sampled.*;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
-import sun.audio.AudioData;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-import sun.audio.ContinuousAudioDataStream;
+//import sun.audio.AudioData;
+//import sun.audio.AudioPlayer;
+//import sun.audio.AudioStream;
+//import sun.audio.ContinuousAudioDataStream;
 
 /**
  *
@@ -60,7 +60,7 @@ public class PlayMe extends JComponent implements KeyListener {
     BufferedImage ShrtPlatForm = ImageHelper.loadImage("SmallPlatForm.png");
     BufferedImage LngPlatForm = ImageHelper.loadImage("LongPlatForm.png");
     BufferedImage lava = ImageHelper.loadImage("lava.png");
-    BufferedImage score = ImageHelper.loadImage("score.png");
+    //BufferedImage score = ImageHelper.loadImage("score.png");
     BufferedImage cave = ImageHelper.loadImage("cave.png");
     BufferedImage playerOrig = ImageHelper.loadImage("player.orig.png");
     BufferedImage gameOverScreen = ImageHelper.loadImage("gameoverScreen.png");
