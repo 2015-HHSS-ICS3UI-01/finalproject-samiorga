@@ -62,7 +62,7 @@ public class PlayMe extends JComponent implements KeyListener {
     BufferedImage LngPlatForm = ImageHelper.loadImage("LongPlatForm.png");
     BufferedImage lava = ImageHelper.loadImage("lava.png");
     BufferedImage enemy = ImageHelper.loadImage("ENEMY.png");
-    BufferedImage cave = ImageHelper.loadImage("cave.png");
+    BufferedImage cave = ImageHelper.loadImage("cave_with_lava.png");
     BufferedImage playerOrig = ImageHelper.loadImage("player.orig.png");
     BufferedImage gameOverScreen = ImageHelper.loadImage("gameoverScreen.png");
 
