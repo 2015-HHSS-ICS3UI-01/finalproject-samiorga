@@ -46,8 +46,8 @@ public class PlayMe extends JComponent implements KeyListener {
     long desiredTime = (1000) / desiredFPS;
 
     //playing sound during game
-    Sound mainTheme = new Sound("MarioLand.wav");
-    Sound gameOverTheme = new Sound("GameOver.wav");
+    Sound mainSound = new Sound("runningsound.wav");
+    Sound gameOver = new Sound("Dead.wav");
 
     //new array for platforms, lava and enemy
     ArrayList<Rectangle> smallPlat = new ArrayList();
@@ -62,13 +62,12 @@ public class PlayMe extends JComponent implements KeyListener {
     BufferedImage LngPlatForm = ImageHelper.loadImage("LongPlatForm.png");
     BufferedImage lava = ImageHelper.loadImage("lava.png");
     BufferedImage enemy = ImageHelper.loadImage("ENEMY.png");
-    //BufferedImage score = ImageHelper.loadImage("score.png");
     BufferedImage cave = ImageHelper.loadImage("cave.png");
     BufferedImage playerOrig = ImageHelper.loadImage("player.orig.png");
     BufferedImage gameOverScreen = ImageHelper.loadImage("gameoverScreen.png");
 
     //animations
-    Animation runLeft;
+    //Animation runLeft;
     Animation idle;
 
     //VARIABLES FOR GAMEPLAY
@@ -105,7 +104,7 @@ public class PlayMe extends JComponent implements KeyListener {
             titleIdle[i] = ImageHelper.loadImage("idleFinn/titleFinn" + i + ".png");
         }
         //create runner animation
-        runLeft = new Animation(14, left);
+        //runLeft = new Animation(14, left);
         idle = new Animation(3, titleIdle);
     }
     //player variable
@@ -273,7 +272,7 @@ public class PlayMe extends JComponent implements KeyListener {
         scoreIncrease.setInitialDelay(0000);
 
         //main theme plays the whole time
-        mainTheme.setLoop(true);
+        mainSound.setLoop(true);
 
         while (!done) {
             // determines when we started so we can keep a framerate
@@ -286,16 +285,16 @@ public class PlayMe extends JComponent implements KeyListener {
                 idle.play(); //title screen idle animation
                 
                 //do not play game over at start of game
-                if (gameOverTheme.isPlaying()) {
-                    gameOverTheme.stop();
+                if (gameOver.isPlaying()) {
+                    gameOver.stop();
                 }
             }
             //main game is playing
             if (level == 1) {
 
                 //play music
-                if (!mainTheme.isPlaying()) {
-                    mainTheme.play();
+                if (!mainSound.isPlaying()) {
+                    mainSound.play();
                 }
 
                 //start small platform timer
@@ -324,11 +323,6 @@ public class PlayMe extends JComponent implements KeyListener {
                 //start score
                 if (!scoreIncrease.isRunning()) {
                     scoreIncrease.start();
-                }
-
-                //player animation
-                if (!runLeft.isPlaying()) {
-                    runLeft.play();
                 }
 
                 //move the player
@@ -468,12 +462,12 @@ public class PlayMe extends JComponent implements KeyListener {
                 //game over screen when charcter dies
                 if (level == 2) {
                     //stop music
-                    if (mainTheme.isPlaying()) {
-                        mainTheme.stop();
+                    if (mainSound.isPlaying()) {
+                        mainSound.stop();
                     }
                     //play game over theme
-                    if (!gameOverTheme.isPlaying()) {
-                        gameOverTheme.play();
+                    if (!gameOver.isPlaying()) {
+                        gameOver.play();
                     }
 
                     player = new Rectangle(50, 450, 48, 110);
