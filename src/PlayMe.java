@@ -208,17 +208,17 @@ public class PlayMe extends JComponent implements KeyListener {
         createWorld();
         //time, lava and platfrom time generator
         //small platfom generating time
-        Timer smallGen = new Timer(9000, new ActionListener() {
+        Timer smallGen = new Timer(6000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 smallPlat.add(new Rectangle(player.x + 700, 125, 116, 50));
             }
         });
         //set first delay
-        smallGen.setInitialDelay(4700);
+        smallGen.setInitialDelay(4400);
 
         //medium platfom generating time
-        Timer mediumGen = new Timer(5950, new ActionListener() {
+        Timer mediumGen = new Timer(6000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mediumPlat.add(new Rectangle(player.x + 600, 275, 175, 50));
