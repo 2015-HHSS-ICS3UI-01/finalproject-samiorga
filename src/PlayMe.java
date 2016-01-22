@@ -68,7 +68,7 @@ public class PlayMe extends JComponent implements KeyListener {
 
     //animations
     //Animation runLeft;
-    Animation idle;
+    Animation running;
 
     //VARIABLES FOR GAMEPLAY
     //player score
@@ -92,20 +92,14 @@ public class PlayMe extends JComponent implements KeyListener {
 
     //generate game world
     public void createWorld() {
-
-        //player animation 
-        BufferedImage[] left = new BufferedImage[6];
-        for (int i = 0; i < 6; i++) {
-            left[i] = ImageHelper.loadImage("finn/frame-" + i + ".gif");
-        }
-        //title screen animation
-        BufferedImage[] titleIdle = new BufferedImage[2];
-        for (int i = 0; i < 2; i++) {
-            titleIdle[i] = ImageHelper.loadImage("idleFinn/titleFinn" + i + ".png");
+     
+        //screen animation
+        BufferedImage[] player = new BufferedImage[2];
+        for (int i = 0; i < 1; i++) {
+            player[i] = ImageHelper.loadImage("player.orig.png");
         }
         //create runner animation
-        //runLeft = new Animation(14, left);
-        idle = new Animation(3, titleIdle);
+        running = new Animation(3, player);
     }
     //player variable
     int dy = 0;
@@ -282,7 +276,7 @@ public class PlayMe extends JComponent implements KeyListener {
             // GAME LOGIC STARTS HERE 
             //title
             if (level == 0) {
-                idle.play(); //title screen idle animation
+                running.play(); //title screen idle animation
                 
                 //do not play game over at start of game
                 if (gameOver.isPlaying()) {
