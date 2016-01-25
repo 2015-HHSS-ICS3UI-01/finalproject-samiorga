@@ -93,7 +93,7 @@ public class PlayMe extends JComponent implements KeyListener {
     //generate game world
     public void createWorld() {
      
-        //screen animation
+        //character animation (did not finish)
         BufferedImage[] player = new BufferedImage[2];
         for (int i = 0; i < 1; i++) {
             player[i] = ImageHelper.loadImage("player.orig.png");
@@ -103,7 +103,7 @@ public class PlayMe extends JComponent implements KeyListener {
     }
     //player variable
     int dy = 0;
-    //random number variable for enemy generate
+    //random number variable for enemy generation
     int randomHL = 0;
     Random random = new Random();
     int randomNumber = (int) (Math.random() * 150) + 1;
@@ -245,6 +245,7 @@ public class PlayMe extends JComponent implements KeyListener {
         Timer enemyGen = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //random generation time for lava balls
                 int High = 250;
                 int Low = randomNumber;
                 randomHL = random.nextInt((High - Low) + Low);
@@ -329,7 +330,7 @@ public class PlayMe extends JComponent implements KeyListener {
                     dy = playerJump;
                 }
 
-                //add gravity
+                //add gravity to player y coordinates
                 dy = dy + gravity;
 
                 //prevent player from falling
@@ -340,6 +341,7 @@ public class PlayMe extends JComponent implements KeyListener {
                 }
 
                 //collision with lava
+                //if collides go to game over screen
                 for (int i = 0; i < lavas.size(); i++) {
                     Rectangle collision = player.intersection(lavas.get(i));
 
@@ -357,6 +359,7 @@ public class PlayMe extends JComponent implements KeyListener {
                     }
                 }
                 //collision with enemy lava ball enemy
+                //if collides go to game over screen
                 for (int i = 0; i < enemys.size(); i++) {
                     Rectangle collision = player.intersection(enemys.get(i));
 
@@ -455,18 +458,20 @@ public class PlayMe extends JComponent implements KeyListener {
 
                 //game over screen when charcter dies
                 if (level == 2) {
-                    //stop music
+                    //stop main music from playing
                     if (mainSound.isPlaying()) {
                         mainSound.stop();
                     }
                     //play game over theme
+                    //start to play game over screen
                     if (!gameOver.isPlaying()) {
                         gameOver.play();
                     }
-
+                    //player measurements
                     player = new Rectangle(50, 450, 48, 110);
                     playerCam = 0;
-                    //start score
+                    
+                    //stop score
                     if (scoreIncrease.isRunning()) {
                         scoreIncrease.stop();
                     }
